@@ -1,6 +1,6 @@
 # 🌟 **Plagiarism Checker**
 ### Video Demo: [Link - todo](#)
-### Live Demo: [Link - todo](#)
+### Live Demo: [https://anticopyright.netlify.app/](#)
 
 ---
 
