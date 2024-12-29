@@ -12,6 +12,7 @@ from nltk.corpus import stopwords
 from nltk import download
 from sentence_transformers import SentenceTransformer, util
 from uvicorn import run
+from datetime import datetime, timedelta
 
 # Ensure stopwords are available
 try:
@@ -79,12 +80,20 @@ def split_text_by_space(text, chunk_size):
     
     return chunks
 
+last_checked = None
+cooldown_period = timedelta(minutes=60)  # 1 hour
+
 @app.get("/api-status/")
 async def api_status():
-    """
-    Checks the status of the Google Custom Search API.
-    Sends a lightweight query and determines if the API is functional.
-    """
+    global last_checked
+    now = datetime.now()
+
+    if last_checked and now - last_checked < cooldown_period:
+        return {"status": "too_many_requests", "message": "Try again later."}
+
+    last_checked = now
+
+    # Existing status logic
     test_query = "test"
     query_url = (
         "https://www.googleapis.com/customsearch/v1"
@@ -97,13 +106,13 @@ async def api_status():
         response = requests.get(query_url, timeout=5)
         data = response.json()
 
-        # If Google returns an error, the API is likely out of service
         if "error" in data:
             return {"status": "out_of_service", "message": data["error"].get("message", "Unknown error")}
 
         return {"status": "in_service"}
     except Exception as e:
         return {"status": "out_of_service", "message": str(e)}
+
 
 @app.get("/")
 async def root():
