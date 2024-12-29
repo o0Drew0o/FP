@@ -3,6 +3,7 @@
 ### Live Demo: [Anti-Copy, Right?!?](https://anticopyright.netlify.app)
 ---
 ![Render](https://img.shields.io/badge/render-deployed-brightgreen)
+![Netlify](https://img.shields.io/badge/netlify-deployed-blue)
 ![Code Style](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)
 ![License](https://img.shields.io/badge/license-MIT-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.8-blue)
