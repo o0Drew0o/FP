@@ -30,15 +30,15 @@ GOOGLE_CX = os.getenv("GOOGLE_CX")
 
 app = FastAPI()
 
+from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://anticopyright.netlify.app"],  # Allow all origins
+    allow_origins=["https://anticopyright.netlify.app"],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 
 # Example threshold for flagging high similarity
