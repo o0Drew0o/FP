@@ -90,16 +90,16 @@ async def api_status():
     global last_checked, last_status
     now = datetime.now()
 
-    # Check if the cooldown period has passed
+    # Check for rate-limiting
     if last_checked and (now - last_checked) < cooldown_period:
-        # Return the last known status if within cooldown
+        print(f"Rate-limited: Last known status: {last_status}")  # Debug log
         return {
             "status": "rate_limited",
             "last_known_status": last_status["status"],
-            "message": f"Rate-limited. Last known status: {last_status['status']}"
+            "message": f"Rate-limited. Last known status: {last_status['status']}",
         }
 
-    # Perform the actual status check
+    # Perform actual status check
     test_query = "test"
     query_url = (
         "https://www.googleapis.com/customsearch/v1"
@@ -107,19 +107,27 @@ async def api_status():
         f"&cx={GOOGLE_CX}"
         f"&q={requests.utils.quote(test_query)}"
     )
-
     try:
         response = requests.get(query_url, timeout=5)
         data = response.json()
 
-        # Check for errors in the API response
         if "error" in data:
             last_status = {"status": "out_of_service", "message": data["error"].get("message", "Unknown error")}
-        else:
-            last_status = {"status": "in_service", "message": "API is operational"}
+            last_checked = now
+            print(f"API Error: {last_status}")  # Debug log
+            return last_status
 
-        last_checked = now  # Update the last checked time
+        last_status = {"status": "in_service", "message": "API is operational"}
+        last_checked = now
+        print(f"API Success: {last_status}")  # Debug log
         return last_status
+
+    except Exception as e:
+        last_status = {"status": "out_of_service", "message": str(e)}
+        last_checked = now
+        print(f"Exception: {last_status}")  # Debug log
+        return last_status
+
 
     except Exception as e:
         # Handle any exceptions during the status check
