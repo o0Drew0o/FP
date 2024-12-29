@@ -2,6 +2,13 @@
 ### Video Demo: [Link - todo](#)
 ### Live Demo: [Anti-Copy, Right?!?](https://anticopyright.netlify.app)
 ---
+![Render](https://img.shields.io/endpoint?url=https://api.render.com/v1/services/your-render-service-id/status)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/your-netlify-badge/deploy-status)](https://app.netlify.com/sites/your-netlify-site/deploys)
+![Code Style](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)
+![License](https://img.shields.io/github/license/your-github-username/your-repository-name)
+![Python](https://img.shields.io/badge/python-3.8-blue)
+![React](https://img.shields.io/badge/react-17.0.2-blue)
+---
 
 ## **Synopsis** 
 Thanks for checking out this project and also reading the README!  I will briefly outline the project, the problems I faced, the choices that were made and why.  
