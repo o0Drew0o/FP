@@ -4,7 +4,7 @@
 ---
 ![Render](https://img.shields.io/badge/render-deployed-brightgreen)
 ![Code Style](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)
-![License](https://img.shields.io/github/license/o0Drew0o/FP)
+![License](https://img.shields.io/badge/license-MIT-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.8-blue)
 ![React](https://img.shields.io/badge/react-17.0.2-blue)
 ![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)
