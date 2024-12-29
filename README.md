@@ -2,11 +2,13 @@
 ### Video Demo: [Link - todo](#)
 ### Live Demo: [Anti-Copy, Right?!?](https://anticopyright.netlify.app)
 ---
-![Render](https://img.shields.io/endpoint?url=https:/https://fp-2uxw.onrender.com/api.render.com/v1/services//status)
+![Render](https://img.shields.io/endpoint?url=https://api.render.com/v1/services/https://fp-2uxw.onrender.com/status)
 ![Code Style](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)
-![License](https://img.shields.io/github/license/your-github-username/your-repository-name)
+![License](https://img.shields.io/github/license/o0Drew0o/FP)
 ![Python](https://img.shields.io/badge/python-3.8-blue)
 ![React](https://img.shields.io/badge/react-17.0.2-blue)
+![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)
+
 ---
 
 ## **Synopsis** 
