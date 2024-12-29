@@ -47,7 +47,7 @@ transformers==4.47.1
 typing_extensions==4.12.2
 urllib3==2.3.0
 uvicorn==0.21.1
-sqlalchemy==2.1.0
+sqlalchemy==1.4.50
 alembic==1.11.1
 psycopg2-binary==2.9.8
 pymysql==1.1.0
