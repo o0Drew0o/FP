@@ -80,20 +80,26 @@ def split_text_by_space(text, chunk_size):
     
     return chunks
 
+# Global variables to track the last status and its timestamp
 last_checked = None
-cooldown_period = timedelta(minutes=60)  # 1 hour
+last_status = {"status": "unknown", "message": "No status available yet."}
+cooldown_period = timedelta(seconds=3600)  # 1 hour cooldown
 
 @app.get("/api-status/")
 async def api_status():
-    global last_checked
+    global last_checked, last_status
     now = datetime.now()
 
-    if last_checked and now - last_checked < cooldown_period:
-        return {"status": "too_many_requests", "message": "Try again later."}
+    # Check if the cooldown period has passed
+    if last_checked and (now - last_checked) < cooldown_period:
+        # Return the last known status if within cooldown
+        return {
+            "status": "rate_limited",
+            "last_known_status": last_status["status"],
+            "message": f"Rate-limited. Last known status: {last_status['status']}"
+        }
 
-    last_checked = now
-
-    # Existing status logic
+    # Perform the actual status check
     test_query = "test"
     query_url = (
         "https://www.googleapis.com/customsearch/v1"
@@ -106,13 +112,20 @@ async def api_status():
         response = requests.get(query_url, timeout=5)
         data = response.json()
 
+        # Check for errors in the API response
         if "error" in data:
-            return {"status": "out_of_service", "message": data["error"].get("message", "Unknown error")}
+            last_status = {"status": "out_of_service", "message": data["error"].get("message", "Unknown error")}
+        else:
+            last_status = {"status": "in_service", "message": "API is operational"}
 
-        return {"status": "in_service"}
+        last_checked = now  # Update the last checked time
+        return last_status
+
     except Exception as e:
-        return {"status": "out_of_service", "message": str(e)}
-
+        # Handle any exceptions during the status check
+        last_status = {"status": "out_of_service", "message": str(e)}
+        last_checked = now
+        return last_status
 
 @app.get("/")
 async def root():
