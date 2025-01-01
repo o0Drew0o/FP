@@ -6,7 +6,7 @@ const PORT = 3000;
 
 // List of servers to ping
 const serversToPing = [
-    "https://fp-1-j84j.onrender.com",
+    "https://tca-mr9v.onrender.comm",
     "https://fp-2uxw.onrender.com"
 ];
 
