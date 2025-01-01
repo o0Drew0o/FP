@@ -68,7 +68,7 @@ app.get("/health", (req, res) => {
 
 // Backup Endpoint
 app.post("/api/backup", (req, res) => {
-  exec("bash ./upload-db.sh", (error, stdout, stderr) => {
+  exec("bash upload-db.sh", (error, stdout, stderr) => {
     if (error) {
       console.error(`Backup script error: ${error.message}`);
       res.status(500).json({ success: false, error: error.message });
@@ -83,7 +83,7 @@ app.post("/api/backup", (req, res) => {
 fs.watch(localDbPath, (eventType, filename) => {
   if (eventType === "change") {
     console.log(`Detected change in ${filename}. Uploading updated .db file...`);
-    exec("bash ./upload-db.sh", (error, stdout, stderr) => {
+    exec("bash upload-db.sh", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error uploading .db file: ${error.message}`);
         return;
@@ -96,7 +96,7 @@ fs.watch(localDbPath, (eventType, filename) => {
 // Download .db file on startup
 const downloadDb = () => {
   console.log("Checking for remote .db file...");
-  exec("bash ./download-db.sh", (error, stdout, stderr) => {
+  exec("bash download-db.sh", (error, stdout, stderr) => {
     if (error) {
       console.error(`Error downloading .db file: ${error.message}`);
       return;
