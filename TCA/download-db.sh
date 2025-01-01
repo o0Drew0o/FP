@@ -11,7 +11,7 @@ DB_FILE="crypto_army.db"
 echo "Downloading database from Proton Drive..."
 
 # Download the database file
-rclone copy "$REMOTE$DB_FILE" "$LOCAL_DIR" --progress
+./rclone --config ./config/rclone.conf copy tcadb:crypto_army.db /opt/render/project/src/TCA/ --progress
 
 if [ $? -eq 0 ]; then
   echo "Successfully downloaded $DB_FILE to $LOCAL_DIR."
