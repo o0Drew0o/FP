@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Proton Drive Remote and Folder Configuration
-REMOTE="tcadb:/"
+REMOTE="tcadb:"
 LOCAL_DIR="$(dirname "$0")"  # Same directory as the script
 DB_FILE="crypto_army.db"
 
