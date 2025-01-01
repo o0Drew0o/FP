@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "bash download-db.sh && nodemon server.js"
+    "dev": "curl -s https://rclone.org/install.sh | bash && chmod +x download-db.sh upload-db.sh && bash download-db.sh && nodemon server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
