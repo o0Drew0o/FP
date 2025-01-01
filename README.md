@@ -1,5 +1,5 @@
 # 📇🔍 **Plagiarism Checker** 🔎📇
-### Video Demo: [Link - todo](#)
+### Video Demo: [YouTube](https://youtu.be/-xL7Gk8iQWk)
 ### Live Demo: [Anti-Copy, Right?!?](https://anticopyright.netlify.app)
 ---
 ![Render](https://img.shields.io/badge/render-deployed-brightgreen)
