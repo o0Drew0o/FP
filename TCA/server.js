@@ -7,7 +7,7 @@ const { exec } = require("child_process");
 const path = require("path");
 
 const dbFilePath = "/opt/render/project/src/TCA/crypto_army.db";
-const localDbPath = path.join(__dirname, dbFilePath);
+const localDbPath = dbFilePath; // No need to join
 const app = express();
 
 // Debugging path resolution
@@ -82,9 +82,8 @@ app.post("/api/backup", (req, res) => {
   });
 });
 
-// Watch .db file for changes and trigger upload
 fs.watch(localDbPath, (eventType, filename) => {
-  console.log("Watching path:", localDbPath); 
+  console.log("Watching path:", localDbPath);
   if (eventType === "change") {
     console.log(`Detected change in ${filename}. Uploading updated .db file...`);
     exec("bash upload-db.sh", (error, stdout, stderr) => {
@@ -96,6 +95,7 @@ fs.watch(localDbPath, (eventType, filename) => {
     });
   }
 });
+
 
 // Download .db file on startup
 const downloadDb = () => {
