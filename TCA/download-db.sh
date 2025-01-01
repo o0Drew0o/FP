@@ -6,7 +6,7 @@ RCLONE="./rclone"
 # Ensure the target directory exists
 mkdir -p /opt/render/project/src/TCA
 
-# Copy the database file from Proton Drive
+# Correct path to copy the file
 $RCLONE --config ./config/rclone.conf copy tcadb:crypto_army.db /opt/render/project/src/TCA/ --progress
 
 if [ $? -eq 0 ]; then
