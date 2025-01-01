@@ -1,0 +1,15 @@
+{
+  "name": "ping-server",
+  "version": "1.0.0",
+  "description": "A simple server to ping other servers and keep them alive",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "o0Drew0o",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.0"
+  }
+}
