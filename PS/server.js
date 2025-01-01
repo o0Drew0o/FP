@@ -7,8 +7,8 @@ const PORT = 3000;
 
 // List of servers to ping
 const serversToPing = [
-    "https://your-first-server.com",
-    "https://your-second-server.com"
+    "https://fp-1-j84j.onrender.com",
+    "https://fp-2uxw.onrender.com"
 ];
 
 // Ping servers every interval (e.g., 5 minutes)
