@@ -17,7 +17,7 @@ if [ ! -f "$SOURCE_FILE" ]; then
 fi
 
 # Upload the database file to Proton Drive
-$RCLONE --config ./config/rclone.conf copy "$SOURCE_FILE" tcadb:tcadb/crypto_army.db --progress
+rclone --config "C:/Users/CodeCenter/AppData/Roaming/rclone/rclone.conf" copy ./crypto_army.db tcadb:tcadb/crypto_army.db --progress
 
 if [ $? -eq 0 ]; then
   echo "Successfully uploaded crypto_army.db to Proton Drive."
