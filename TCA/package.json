@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "curl -s https://rclone.org/install.sh | bash -s -- --path ./rclone && chmod +x download-db.sh upload-db.sh && ./rclone/rclone copy tcadb:/crypto_army.db . && nodemon server.js"
+      "dev": "curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip && unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone ./rclone && chmod +x ./rclone && chmod +x download-db.sh upload-db.sh && ./rclone copy tcadb:/crypto_army.db . && nodemon server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
