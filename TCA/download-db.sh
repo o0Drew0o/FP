@@ -14,7 +14,7 @@ TARGET_DIR="/opt/render/project/src/TCA"
 mkdir -p "$TARGET_DIR"
 
 # Copy the database file from Proton Drive
-./rclone --config ./config/rclone.conf copy tcadb:tcadb/crypto_army.db /opt/render/project/src/TCA/ --progress
+rclone --config "C:/Users/CodeCenter/AppData/Roaming/rclone/rclone.conf" copy tcadb:tcadb/crypto_army.db . --progress
 
 if [ $? -eq 0 ]; then
   echo "Successfully downloaded crypto_army.db to $TARGET_DIR"
