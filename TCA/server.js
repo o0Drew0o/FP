@@ -2,7 +2,16 @@ const express = require("express");
 const cors = require("cors");
 const { WebSocketServer } = require("ws");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("./crypto_army.db");
+const fs = require("fs");
+const { exec } = require("child_process");
+const path = require("path");
+
+const dbFilePath = "crypto_army.db";
+const localDbPath = path.join(__dirname, dbFilePath);
+const app = express();
+
+// Initialize SQLite Database
+const db = new sqlite3.Database(dbFilePath);
 
 // Create the pledges table if it doesn't exist
 db.serialize(() => {
@@ -18,14 +27,6 @@ db.serialize(() => {
   `);
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-    res.status(200).send('Server is healthy... BAM!!');
-});
-
-
-
-const app = express();
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST"],
@@ -47,6 +48,65 @@ wss.on("connection", (ws) => {
     console.log("WebSocket connection closed.");
   });
 });
+
+// Notify all connected clients
+const notifyClients = (message) => {
+  wss.clients.forEach((client) => {
+    if (client.readyState === 1) {
+      client.send(JSON.stringify(message));
+    }
+  });
+};
+
+// Health Check Endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    timestamp: new Date(),
+  });
+});
+
+// Backup Endpoint
+app.post("/api/backup", (req, res) => {
+  exec("bash /path/to/upload-db.sh", (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Backup script error: ${error.message}`);
+      res.status(500).json({ success: false, error: error.message });
+      return;
+    }
+    console.log(`Backup script output: ${stdout}`);
+    res.json({ success: true, message: "Backup completed successfully!" });
+  });
+});
+
+// Watch .db file for changes and trigger upload
+fs.watch(localDbPath, (eventType, filename) => {
+  if (eventType === "change") {
+    console.log(`Detected change in ${filename}. Uploading updated .db file...`);
+    exec("bash /path/to/upload-db.sh", (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error uploading .db file: ${error.message}`);
+        return;
+      }
+      console.log(`Successfully uploaded updated .db file: ${stdout}`);
+    });
+  }
+});
+
+// Download .db file on startup
+const downloadDb = () => {
+  console.log("Checking for remote .db file...");
+  exec("bash /path/to/download-db.sh", (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error downloading .db file: ${error.message}`);
+      return;
+    }
+    console.log(`Downloaded .db file: ${stdout}`);
+  });
+};
+downloadDb();
+
+// REST API Endpoints
 app.post("/api/pledges", (req, res) => {
   const { name, message, walletAddress, signature } = req.body;
 
@@ -59,21 +119,12 @@ app.post("/api/pledges", (req, res) => {
         res.status(500).json({ error: "Failed to save pledge" });
       } else {
         console.log("Pledge saved with ID:", this.lastID);
+        notifyClients({ type: "new_member", data: { name } });
         res.status(201).json({ id: this.lastID });
       }
     }
   );
 });
-
-
-// Notify all connected clients
-const notifyClients = (message) => {
-  wss.clients.forEach((client) => {
-    if (client.readyState === 1) {
-      client.send(JSON.stringify(message));
-    }
-  });
-};
 
 app.get("/api/pledges/:walletAddress", (req, res) => {
   const walletAddress = req.params.walletAddress;
@@ -88,25 +139,6 @@ app.get("/api/pledges/:walletAddress", (req, res) => {
       res.json({ pledged: false });
     }
   });
-});
-
-
-
-// API Endpoint for Pledges
-app.post("/api/pledges", (req, res) => {
-  const { name, message, walletAddress, signature } = req.body;
-
-  try {
-    console.log("Pledge received:", { name, message, walletAddress, signature });
-
-    // Notify WebSocket clients of the new member
-    notifyClients({ type: "new_member", data: { name } });
-
-    res.status(201).json({ message: "Pledge saved successfully!" });
-  } catch (error) {
-    console.error("Error handling pledge:", error);
-    res.status(500).json({ error: "Failed to handle pledge." });
-  }
 });
 
 // Start the REST API Server
