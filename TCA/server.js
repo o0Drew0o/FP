@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { WebSocketServer } = require("ws");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("crypto_army.db");
+const db = new sqlite3.Database("./crypto_army.db");
 
 // Create the pledges table if it doesn't exist
 db.serialize(() => {
