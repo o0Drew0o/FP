@@ -37,12 +37,6 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log("Incoming request headers:", req.headers);
-  next();
-});
-
-
 // WebSocket Server Setup
 const wss = new WebSocketServer({ port: 8080 });
 
