@@ -1,7 +1,6 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch'); // Import node-fetch
 
-// Create the Express app
 const app = express();
 const PORT = 3000;
 
@@ -11,10 +10,9 @@ const serversToPing = [
     "https://fp-2uxw.onrender.com"
 ];
 
-// Ping servers every interval (e.g., 1 minutes)
-const PING_INTERVAL = 1 * 60 * 1000; // 1 minutes in milliseconds
+// Ping interval (1 minutes)
+const PING_INTERVAL = 1 * 60 * 1000;
 
-// Function to ping servers
 const pingServers = async () => {
     console.log("Pinging servers...");
     for (const server of serversToPing) {
@@ -31,15 +29,14 @@ const pingServers = async () => {
     }
 };
 
-// Set up the periodic pings
+// Ping servers at regular intervals
 setInterval(pingServers, PING_INTERVAL);
 
-// Root route to check if this server is running
+// Start Express server
 app.get('/', (req, res) => {
     res.send("Ping Server is running!");
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Ping server is running on http://localhost:${PORT}`);
 });
