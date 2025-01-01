@@ -18,6 +18,11 @@ db.serialize(() => {
   `);
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).send('Server is healthy... BAM!!');
+});
+
 
 
 const app = express();
