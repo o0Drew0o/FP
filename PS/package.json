@@ -6,10 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "npm-run-all clean prepare",
-    "clean": "rm -rf dist",
-    "prepare": "cp server.js dist/ && cp package.json dist/",
-    "serve": "node dist/server.js"
+    "build": "npm run build",
   },
   "author": "o0Drew0o",
   "license": "MIT",
