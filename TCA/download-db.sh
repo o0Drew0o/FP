@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Ensure the local path exists
+mkdir -p /opt/render/project/src/TCA
+
 # Proton Drive Remote and Folder Configuration
 REMOTE="tcadb:"
 LOCAL_DIR="$(dirname "$0")"  # Same directory as the script
