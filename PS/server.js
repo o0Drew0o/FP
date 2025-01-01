@@ -11,8 +11,8 @@ const serversToPing = [
     "https://fp-2uxw.onrender.com"
 ];
 
-// Ping servers every interval (e.g., 5 minutes)
-const PING_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+// Ping servers every interval (e.g., 1 minutes)
+const PING_INTERVAL = 1 * 60 * 1000; // 1 minutes in milliseconds
 
 // Function to ping servers
 const pingServers = async () => {
