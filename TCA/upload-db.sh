@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to rclone binary
-RCLONE="./.rclone/rclone"
+RCLONE="./rclone"
 
 # Ensure the rclone binary exists
 if [ ! -f "$RCLONE" ]; then
@@ -17,7 +17,7 @@ if [ ! -f "$SOURCE_FILE" ]; then
 fi
 
 # Upload the database file to Proton Drive
-$RCLONE --config ./config/rclone.conf copy "$SOURCE_FILE" tcadb: --progress
+$RCLONE --config ./config/rclone.conf copy "$SOURCE_FILE" tcadb:tcadb/crypto_army.db --progress
 
 if [ $? -eq 0 ]; then
   echo "Successfully uploaded crypto_army.db to Proton Drive."
