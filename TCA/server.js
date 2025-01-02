@@ -63,6 +63,7 @@ const notifyClients = (message) => {
 
 // Health Check Endpoint
 app.get("/health", (req, res) => {
+console.log(`Ping received at: ${new Date().toISOString()}`);
   res.status(200).json({
     status: "healthy",
     timestamp: new Date(),
