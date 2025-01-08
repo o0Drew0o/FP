@@ -8,7 +8,8 @@ const PORT = 3000;
 const serversToPing = [
     "https://tca-mr9v.onrender.com/health",
     "https://fp-2uxw.onrender.com",
-    "https://ping-6ccl.onrender.com"
+    "https://ping-6ccl.onrender.com",
+    "https://egjs.onrender.com"
 ];
 
 // Ping interval in milliseconds
