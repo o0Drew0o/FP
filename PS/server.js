@@ -62,6 +62,32 @@ app.get('/ping-health', (req, res) => {
     });
 });
 
+// Function to generate email-friendly server health data
+const getServerHealthForEmail = () => {
+    return pingResults.map(result => `- ${result.server} - ${result.status.toUpperCase()} (Checked at ${result.timestamp})`).join('\n');
+};
+
+// Example integration for email
+const exampleEmailOutput = () => {
+    const serverHealthData = getServerHealthForEmail();
+    return `
+Hello,
+
+Here’s the requested system update, including the latest server health status:
+
+**Server Health:**
+${serverHealthData}
+
+Please let us know if you need further assistance.
+
+Best regards,
+Your Team 🚀
+    `;
+};
+
+// Log example email output for testing
+console.log(exampleEmailOutput());
+
 // Start the Express server
 app.listen(PORT, () => {
     console.log(`Ping server is running on http://localhost:${PORT}`);
