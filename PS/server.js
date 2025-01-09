@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = require('node-fetch');
 
 // Create an Express app
 const app = express();
@@ -14,23 +15,36 @@ const serversToPing = [
 ];
 
 // Ping interval in milliseconds
-const PING_INTERVAL = 1 * 60 * 1000; // 1 minutes
+const PING_INTERVAL = 1 * 60 * 1000; // 1 minute
+
+// In-memory storage for ping results
+const pingResults = [];
 
 // Function to ping servers
 const pingServers = async () => {
     console.log("Pinging servers...");
+    const results = [];
     for (const server of serversToPing) {
         try {
             const response = await fetch(server);
-            if (response.ok) {
-                console.log(`✅ Ping successful: ${server}`);
-            } else {
-                console.error(`⚠️ Ping failed (non-OK response): ${server}`);
-            }
+            const status = response.ok ? "success" : `failed (status: ${response.status})`;
+            results.push({
+                server,
+                status,
+                timestamp: new Date().toISOString()
+            });
+            console.log(`✅ Ping ${status}: ${server}`);
         } catch (error) {
-            console.error(`❌ Ping failed (error): ${server} - ${error.message}`);
+            results.push({
+                server,
+                status: `failed (error: ${error.message})`,
+                timestamp: new Date().toISOString()
+            });
+            console.error(`❌ Ping failed: ${server} - ${error.message}`);
         }
     }
+    // Store the latest results
+    pingResults.splice(0, pingResults.length, ...results);
 };
 
 // Start the ping loop
@@ -39,6 +53,13 @@ setInterval(pingServers, PING_INTERVAL);
 // Root endpoint to confirm server is running
 app.get('/', (req, res) => {
     res.send("Ping server is running!");
+});
+
+// Endpoint to get the ping health of servers
+app.get('/ping-health', (req, res) => {
+    res.json({
+        serverResponses: pingResults
+    });
 });
 
 // Start the Express server
