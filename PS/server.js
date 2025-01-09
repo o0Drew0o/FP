@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch'); // Ensure this line is present for Node.js <18
 
 // Create an Express app
 const app = express();
